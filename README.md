@@ -1,5 +1,5 @@
 # Block-Sleep
-Blocks system from going to sleep by sending a keystroke if the specified application is running for a specified period of time (in minutes).
+Blocks system from going to sleep by sending a keystroke if the specified application is running for a specified period of time (in minutes), default is 9 hours.
 
 ## Legal:
 	You the executor, runner, user accept all liability.

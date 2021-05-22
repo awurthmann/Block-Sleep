@@ -9,9 +9,9 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Block-Sleep.ps1
-# Version: 2021.05.19.173401
+# Version: 2021.05.22.153801
 # Description: Blocks system from going to sleep by sending keystroke if the specified 
-#	application is running for specified period of time (in minutes).
+#	application is running for specified period of time (in minutes), default is 9 hours.
 # 
 # Instructions: Run with application (program.exe/or without .exe)
 # Example: .\Block-Sleep obs64.exe
@@ -36,10 +36,9 @@ While (($AppName -eq "") -or ($AppName -eq $null) ) {
 
 [bool]$sendKeyLoop=$False
 [bool]$mainLoop=$True
-[int]$sleepSeconds=60
 [int]$minuteCount=0
 $AppName=$AppName.Split(".")[0]
-$later=(Get-Date).AddSeconds($($sleepSeconds*$TotalMinutes))
+$later=(Get-Date).AddMinutes($TotalMinutes)
 
 while ($mainLoop) {
 	
@@ -61,7 +60,7 @@ while ($mainLoop) {
 		#Write-Progress -Activity "Blocking Sleep untill $later" -Status "Time Remaining $("H:{0:hh\ 'M:'mm}" -f $diff)" -PercentComplete $($minuteCount/$TotalMinutes*100)
 		Write-Progress -Activity "Blocking Sleep untill $later" -Status "Time Remaining $("{0:hh\:mm}" -f $diff)" -PercentComplete $($minuteCount/$TotalMinutes*100)
 
-		Start-Sleep -Seconds $sleepSeconds
+		Start-Sleep -Seconds 60
 		
 		If (((Get-Process).ProcessName -notcontains $AppName) -or ($minuteCount -ge $TotalMinutes) -or ($now -ge $later)) {
 			$sendKeyLoop=$False
@@ -76,6 +75,6 @@ while ($mainLoop) {
 		break
 	}
 	
-	Start-Sleep -Seconds $sleepSeconds
+	Start-Sleep -Seconds 60
 }
 
