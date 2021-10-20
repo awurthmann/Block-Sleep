@@ -52,7 +52,12 @@ while ($mainLoop) {
 	add-type -AssemblyName System.Windows.Forms
 
 	While ($sendKeyLoop) {
-		[System.Windows.Forms.SendKeys]::SendWait($Keystroke)
+		try {
+			[System.Windows.Forms.SendKeys]::SendWait($Keystroke)
+		}
+		catch {
+			If ($_.Exception.Message -ne 'Exception calling "SendWait" with "1" argument(s): "Access is denied"') {throw}
+		}
 		
 		$minuteCount++
 		$now=Get-Date
